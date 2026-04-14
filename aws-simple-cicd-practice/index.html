@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS CI/CD Practice | Project Spotlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f59e0b; /* AWS Orange-ish */
+            --success: #10b981;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.7), var(--bg)), url('./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-simple-cicd-practice-pipeline-view-2026-04-14-17_43_08.png');
+            background-size: cover;
+            background-position: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg) 90%);
+        }
+
+        .hero-content { max-width: 800px; position: relative; z-index: 2; }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: -100px auto 100px;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 4rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(20px);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.25rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            background: rgba(245, 158, 11, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1.25rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #000;
+            transform: translateX(-5px);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.6rem 1.5rem;
+            border-radius: 99px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .gallery-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .gallery-item {
+            display: block;
+            width: 100%;
+        }
+
+        .gallery-image {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 12px;
+            box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.7);
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            width: 100%;
+            cursor: zoom-in;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+            transition: 0.8s transform;
+        }
+
+        .gallery-item:hover .gallery-image {
+            border-color: var(--primary);
+            transform: translateY(-8px) scale(1.005);
+        }
+
+        /* Lightbox Styling */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 98%;
+            max-height: 98%;
+            border-radius: 8px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: contain;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 2.5rem; }
+            .hero { height: 50vh; }
+            section { padding: 2rem; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1rem; padding-top: 5rem; width: 100%; }
+            h1 { font-size: 1.8rem; }
+            .hero-content p { font-size: 0.95rem !important; }
+            .back-nav { top: 1rem; left: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Showcase
+        </a>
+    </div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="status-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Status: Completed
+            </div>
+            <h1>AWS Simple CI/CD Practice</h1>
+            <p style="font-size: 1.25rem; color: var(--text-dim); max-width: 700px; margin: 0 auto;">
+                A practice project demonstrating a fully automated CI/CD pipeline using AWS services for deploying a static website.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Overview -->
+        <section>
+            <h2>Infrastructure Overview</h2>
+            <p style="margin-bottom: 3.5rem; font-size: 1.25rem; color: var(--text-dim); line-height: 1.8;">
+                This project focuses on setting up a <strong>DevOps pipeline</strong> that automatically builds and deploys code changes from GitHub to an Amazon S3 bucket.
+            </p>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3><span>📦</span> Amazon S3</h3>
+                    <p>Highly available and scalable object storage hosting the static website files.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🚀</span> AWS CodePipeline</h3>
+                    <p>Orchestrates the entire workflow from source control to deployment.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🛠️</span> AWS CodeBuild</h3>
+                    <p>Automates the build process, ensuring code is properly packaged before deployment.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🔗</span> GitHub Integration</h3>
+                    <p>Seamless connection to source code, triggering the pipeline on every commit.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Showcase Gallery -->
+        <section id="showcase">
+            <h2>Pipeline & Deployment Gallery</h2>
+            <p style="color: var(--text-dim); margin-bottom: 3rem;">
+                Visual walk-through of the AWS CI/CD pipeline, from GitHub commits to successful deployment in S3.
+            </p>
+            
+            <div class="gallery-grid">
+                <!-- 1. GitHub Commit -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-github-JeffJojerJonesCatulay-aws-simple-cicd-practice-commit-1000738044cb42bcae3d0e15a51b1cb72e028d88-2026-04-14-17_43_28.png" alt="GitHub Commit">
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Triggering a push on the repository to initiate the automated CI/CD pipeline.</p>
+                </div>
+
+                <!-- 2. CodePipeline Overview -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-simple-cicd-practice-pipeline-view-2026-04-14-17_43_08.png" alt="CodePipeline Overview">
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Orchestrated AWS CodePipeline flow showing Source, Build, and Deploy stages.</p>
+                </div>
+
+                <!-- 3. Detailed Pipeline View -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-simple-cicd-practice-pipeline-view-2026-04-14-17_43_58.png" alt="Detailed Pipeline View">
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Detailed view of the deployment pipeline execution.</p>
+                </div>
+
+                <!-- 4. CodeBuild Project -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codebuild-961776040935-projects-aws-simple-cicd-build-2026-04-14-17_44_08.png" alt="CodeBuild Project">
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">AWS CodeBuild project configuration and build history.</p>
+                </div>
+
+                <!-- 5. AWS S3 Buckets List -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-s3-buckets-2026-04-14-17_44_18.png" alt="AWS S3 Buckets">
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">AWS Management Console showing the S3 buckets used for hosting.</p>
+                </div>
+
+                <!-- 6. S3 Bucket Content -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-s3-buckets-aws-simple-cicd-practice-2026-04-14-17_44_25.png" alt="S3 Bucket Content">
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Successfully deployed artifacts in the target S3 bucket.</p>
+                </div>
+
+                <!-- 7. Initial Website Deployment -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-aws-simple-cicd-practice-s3-us-east-1-amazonaws-aws-simple-cicd-build-index-html-2026-04-14-17_41_45.png" alt="Initial Website Deployment">
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Website version 1 deployment verification.</p>
+                </div>
+
+                <!-- 8. Final Website Deployment -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-aws-simple-cicd-practice-s3-us-east-1-amazonaws-aws-simple-cicd-build-index-html-2026-04-14-17_44_34.png" alt="Live Website">
+                    </div>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">The live website hosted on S3, updated automatically through the pipeline.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Lightbox Overlay -->
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Enlarged Showcase">
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AWS Simple CI/CD Practice Showcase</p>
+    </footer>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryImages = document.querySelectorAll('.gallery-image img');
+
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => { lightboxImg.src = ''; }, 300);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') lightbox.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
