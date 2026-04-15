@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS CI/CD Practice | Project Spotlight</title>
+    <title>AWS Docker CI/CD | Project Spotlight</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #f59e0b; /* AWS Orange-ish */
+            --primary: #38bdf8; /* Docker Blue */
             --success: #10b981;
             --bg: #030712;
             --card-bg: rgba(17, 24, 39, 0.8);
@@ -39,7 +39,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.7), var(--bg)), url('./docs/images/architecture.png');
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.7), var(--bg)), url('./docs/images/archi-upd.png');
             background-size: cover;
             background-position: center;
             padding: 2rem;
@@ -59,7 +59,7 @@
             font-family: 'Outfit', sans-serif;
             font-size: 4rem;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #fff 0%, #f59e0b 100%);
+            background: linear-gradient(135deg, #fff 0%, #38bdf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -96,7 +96,7 @@
         }
 
         .feature-card {
-            padding: 2rem;
+            padding: 2.5rem;
             background: rgba(255, 255, 255, 0.02);
             border-radius: 24px;
             border: 1px solid var(--border);
@@ -105,7 +105,7 @@
 
         .feature-card:hover {
             border-color: var(--primary);
-            background: rgba(245, 158, 11, 0.05);
+            background: rgba(56, 189, 248, 0.05);
             transform: translateY(-5px);
         }
 
@@ -273,9 +273,9 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 Status: Completed
             </div>
-            <h1>AWS Simple CI/CD Practice</h1>
+            <h1>AWS Docker CI/CD</h1>
             <p style="font-size: 1.25rem; color: var(--text-dim); max-width: 700px; margin: 0 auto;">
-                A practice project demonstrating a fully automated CI/CD pipeline using AWS services for deploying a static website.
+                A fully automated containerized deployment pipeline for React applications using Docker, Amazon ECR, CodePipeline, and EC2.
             </p>
         </div>
     </div>
@@ -285,24 +285,24 @@
         <section>
             <h2>Infrastructure Overview</h2>
             <p style="margin-bottom: 3.5rem; font-size: 1.25rem; color: var(--text-dim); line-height: 1.8;">
-                This project focuses on setting up a <strong>DevOps pipeline</strong> that automatically builds and deploys code changes from GitHub to an Amazon S3 bucket.
+                This project demonstrates a robust <strong>DevOps workflow</strong> that containerizes a React frontend and automates its deployment to AWS cloud infrastructure.
             </p>
             <div class="grid">
                 <div class="feature-card">
-                    <h3><span>📦</span> Amazon S3</h3>
-                    <p>Highly available and scalable object storage hosting the static website files.</p>
+                    <h3><span>🐳</span> Docker</h3>
+                    <p>Standardized packaging of the React application to ensure consistency across all environments.</p>
                 </div>
                 <div class="feature-card">
-                    <h3><span>🚀</span> AWS CodePipeline</h3>
-                    <p>Orchestrates the entire workflow from source control to deployment.</p>
+                    <h3><span>📦</span> Amazon ECR</h3>
+                    <p>Secure, scalable container registry managing versioned Docker images for the pipeline.</p>
                 </div>
                 <div class="feature-card">
-                    <h3><span>🛠️</span> AWS CodeBuild</h3>
-                    <p>Automates the build process, ensuring code is properly packaged before deployment.</p>
+                    <h3><span>🚀</span> CodePipeline</h3>
+                    <p>Automation hub orchestrating the build and deployment process on every code change.</p>
                 </div>
                 <div class="feature-card">
-                    <h3><span>🔗</span> GitHub Integration</h3>
-                    <p>Seamless connection to source code, triggering the pipeline on every commit.</p>
+                    <h3><span>☁️</span> Amazon EC2</h3>
+                    <p>Elastic Compute Cloud instances running the containerized application in production.</p>
                 </div>
             </div>
         </section>
@@ -311,72 +311,56 @@
         <section id="showcase">
             <h2>Pipeline & Deployment Gallery</h2>
             <p style="color: var(--text-dim); margin-bottom: 3rem;">
-                Visual walk-through of the AWS CI/CD pipeline, from GitHub commits to successful deployment in S3.
+                Visual walkthrough of the automated deployment journey, from GitHub trigger to live production state.
             </p>
             
             <div class="gallery-grid">
                 <!-- 1. GitHub Commit -->
                 <div class="gallery-item">
                     <div class="gallery-image">
-                        <img src="./docs/images/screencapture-github-JeffJojerJonesCatulay-aws-simple-cicd-practice-commit-1000738044cb42bcae3d0e15a51b1cb72e028d88-2026-04-14-17_43_28.png" alt="GitHub Commit">
+                        <img src="./docs/images/screencapture-github-JeffJojerJonesCatulay-aws-docker-cicd-react-app-commit-be351bcf7a81fb112527b8c538acbe80bd146a28-2026-04-15-22_58_13.png" alt="GitHub Source Trigger">
                     </div>
-                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Triggering a push on the repository to initiate the automated CI/CD pipeline.</p>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Source code push on GitHub initiating the automated CI/CD lifecycle.</p>
                 </div>
 
                 <!-- 2. CodePipeline Overview -->
                 <div class="gallery-item">
                     <div class="gallery-image">
-                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-simple-cicd-practice-pipeline-view-2026-04-14-17_43_08.png" alt="CodePipeline Overview">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-docker-cicd-react-app-pipeline-view-2026-04-15-22_58_21.png" alt="AWS CodePipeline Overview">
                     </div>
-                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Orchestrated AWS CodePipeline flow showing Source, Build, and Deploy stages.</p>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Full view of the orchestration pipeline showing Source, Build, and Deploy stages.</p>
                 </div>
 
-                <!-- 3. Detailed Pipeline View -->
+                <!-- 3. CodeBuild Project -->
                 <div class="gallery-item">
                     <div class="gallery-image">
-                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-simple-cicd-practice-pipeline-view-2026-04-14-17_43_58.png" alt="Detailed Pipeline View">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codebuild-961776040935-projects-aws-docker-cicd-react-app-2026-04-15-22_59_56.png" alt="AWS CodeBuild Logs">
                     </div>
-                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Detailed view of the deployment pipeline execution.</p>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">CodeBuild process compiling and containerizing the React application.</p>
                 </div>
 
-                <!-- 4. CodeBuild Project -->
+                <!-- 4. Amazon ECR Registry -->
                 <div class="gallery-item">
                     <div class="gallery-image">
-                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codebuild-961776040935-projects-aws-simple-cicd-build-2026-04-14-17_44_08.png" alt="CodeBuild Project">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ecr-repositories-private-961776040935-image-repo-aws-docker-cicd-react-app-details-2026-04-15-23_00_07.png" alt="Amazon ECR Details">
                     </div>
-                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">AWS CodeBuild project configuration and build history.</p>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Docker images successfully stored and versioned in Amazon Elastic Container Registry.</p>
                 </div>
 
-                <!-- 5. AWS S3 Buckets List -->
+                <!-- 5. EC2 Instance Connect -->
                 <div class="gallery-item">
                     <div class="gallery-image">
-                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-s3-buckets-2026-04-14-17_44_18.png" alt="AWS S3 Buckets">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ec2-instance-connect-ssh-home-2026-04-15-23_00_55.png" alt="EC2 Instance SSH">
                     </div>
-                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">AWS Management Console showing the S3 buckets used for hosting.</p>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Verifying the deployment status directly on the EC2 host machine.</p>
                 </div>
 
-                <!-- 6. S3 Bucket Content -->
+                <!-- 6. Live Website Production -->
                 <div class="gallery-item">
                     <div class="gallery-image">
-                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-s3-buckets-aws-simple-cicd-practice-2026-04-14-17_44_25.png" alt="S3 Bucket Content">
+                        <img src="./docs/images/screencapture-ec2-54-235-58-130-compute-1-amazonaws-2026-04-15-23_01_17.png" alt="Live Application">
                     </div>
-                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Successfully deployed artifacts in the target S3 bucket.</p>
-                </div>
-
-                <!-- 7. Initial Website Deployment -->
-                <div class="gallery-item">
-                    <div class="gallery-image">
-                        <img src="./docs/images/screencapture-aws-simple-cicd-practice-s3-us-east-1-amazonaws-aws-simple-cicd-build-index-html-2026-04-14-17_41_45.png" alt="Initial Website Deployment">
-                    </div>
-                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">Website version 1 deployment verification.</p>
-                </div>
-
-                <!-- 8. Final Website Deployment -->
-                <div class="gallery-item">
-                    <div class="gallery-image">
-                        <img src="./docs/images/screencapture-aws-simple-cicd-practice-s3-us-east-1-amazonaws-aws-simple-cicd-build-index-html-2026-04-14-17_44_34.png" alt="Live Website">
-                    </div>
-                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">The live website hosted on S3, updated automatically through the pipeline.</p>
+                    <p style="margin-top: 1rem; color: var(--text-dim); text-align: center;">The React application running live, served from a Docker container on AWS EC2.</p>
                 </div>
             </div>
         </section>
@@ -388,7 +372,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 AWS Simple CI/CD Practice Showcase</p>
+        <p>&copy; 2026 AWS Docker CI/CD Showcase</p>
     </footer>
 
     <script>
