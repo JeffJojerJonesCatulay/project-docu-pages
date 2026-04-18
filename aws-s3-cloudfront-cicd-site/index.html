@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS S3 + CloudFront CI/CD | Project Spotlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f59e0b; /* AWS Orange */
+            --primary-glow: rgba(245, 158, 11, 0.5);
+            --success: #10b981;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.8), var(--bg)), url('./docs/images/architecture.png');
+            background-size: cover;
+            background-position: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg) 90%);
+        }
+
+        .hero-content { max-width: 900px; position: relative; z-index: 2; }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -100px auto 100px;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 4rem;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.25rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            background: rgba(245, 158, 11, 0.05);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px rgba(245, 158, 11, 0.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-back:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #000;
+            transform: translateX(-5px);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.6rem 1.5rem;
+            border-radius: 99px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .gallery-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+
+        .gallery-item {
+            display: block;
+            width: 100%;
+        }
+
+        .gallery-image {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 12px;
+            box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.7);
+            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            width: 100%;
+            cursor: zoom-in;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .gallery-item:hover .gallery-image {
+            border-color: var(--primary);
+            transform: scale(1.015);
+            box-shadow: 0 50px 120px -40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(245, 158, 11, 0.1);
+        }
+
+        .gallery-caption {
+            margin-top: 2rem;
+            color: var(--text-dim);
+            text-align: center;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Lightbox Styling */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 12px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            transform: scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            object-fit: contain;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            background: linear-gradient(to bottom, transparent, rgba(245, 158, 11, 0.02));
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 3rem; }
+            .hero { height: 60vh; }
+            section { padding: 2.5rem 1.5rem; }
+            .container { margin-top: -60px; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 1rem; padding-top: 5rem; }
+            h1 { font-size: 2.2rem; }
+            .hero-content p { font-size: 1rem !important; }
+            .back-nav { top: 1rem; left: 1rem; }
+            .btn-back { padding: 0.6rem 1rem; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Showcase
+        </a>
+    </div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="status-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Status: Completed
+            </div>
+            <h1>AWS S3 + CloudFront CI/CD</h1>
+            <p style="font-size: 1.4rem; color: var(--text-dim); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+                Automated global content delivery pipeline powering a static website with high availability and edge caching.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Overview -->
+        <section>
+            <h2>Infrastructure Strategy</h2>
+            <p style="margin-bottom: 3.5rem; font-size: 1.25rem; color: var(--text-dim); line-height: 1.8;">
+                Every code push to GitHub triggers an automated workflow that synchronizes production assets and refreshes global caches instantly.
+            </p>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3><span>📦</span> Amazon S3</h3>
+                    <p>Primary origin storage for website assets, configured for high-performance static hosting.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>⚡</span> CloudFront</h3>
+                    <p>Global Content Delivery Network (CDN) with edge caching and SSL/TLS termination for low latency.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🔄</span> CodePipeline</h3>
+                    <p>Fully managed CI/CD service orchestrating the movement of code from source to global delivery.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🏗️</span> CodeBuild</h3>
+                    <p>Handles build execution, artifact synchronization to S3, and CloudFront cache invalidation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Showcase Gallery -->
+        <section id="showcase">
+            <h2>The Pipeline in Action</h2>
+            <p style="color: var(--text-dim); margin-bottom: 4rem; font-size: 1.1rem;">
+                A visual journey through the automated deployment process and global infrastructure configuration.
+            </p>
+            
+            <div class="gallery-grid">
+                <!-- 1. Architecture -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/architecture.png" alt="Architecture Diagram">
+                    </div>
+                    <div class="gallery-caption">Full architecture diagram showing the serverless flow from GitHub to CloudFront Edge Locations.</div>
+                </div>
+
+                <!-- 2. GitHub Commit -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-github-JeffJojerJonesCatulay-aws-static-web-commit-862b8464afeb877d3d5549fa17b2d1cd91a620ce-2026-04-18-19_26_21.png" alt="GitHub Commit">
+                    </div>
+                    <div class="gallery-caption">Source trigger: A code commit to GitHub initiates the AWS CodePipeline execution.</div>
+                </div>
+
+                <!-- 3. CodePipeline Overview -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-s3-cloudfront-cicd-site-codepipeline-view-2026-04-18-19_26_31.png" alt="CodePipeline Source Step">
+                    </div>
+                    <div class="gallery-caption">CodePipeline Step 1: Successfully pulling the latest source code from the connected GitHub repository.</div>
+                </div>
+
+                 <!-- 4. CodeBuild -->
+                 <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codebuild-961776040935-projects-aws-s3-cloudfront-cicd-site-codebuild-2026-04-18-19_26_53.png" alt="AWS CodeBuild">
+                    </div>
+                    <div class="gallery-caption">AWS CodeBuild: Executing the buildspec commands to sync files to S3 and invalidate the CloudFront cache.</div>
+                </div>
+
+                <!-- 5. CodePipeline Completion -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-s3-cloudfront-cicd-site-codepipeline-view-2026-04-18-19_27_13.png" alt="CodePipeline Complete">
+                    </div>
+                    <div class="gallery-caption">Pipeline Success: The entire flow from Source to Build/Deploy phases completed in real-time.</div>
+                </div>
+
+                <!-- 6. CloudFront Distribution -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-cloudfront-v4-home-2026-04-18-19_27_07.png" alt="CloudFront Console">
+                    </div>
+                    <div class="gallery-caption">Amazon CloudFront: Configuring the distribution with S3 origin and OAC for secure, global delivery.</div>
+                </div>
+
+                <!-- 7. Live Site -->
+                <div class="gallery-item">
+                    <div class="gallery-image">
+                        <img src="./docs/images/screencapture-df7v7ubaaew8s-cloudfront-net-index-html-2026-04-18-19_42_25.png" alt="Live Website via CloudFront">
+                    </div>
+                    <div class="gallery-caption">The Live Site: Delivered globally via CloudFront with updated content immediately available after invalidation.</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Lightbox Overlay -->
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Enlarged Showcase View">
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AWS Cloud Delivery Pipeline | Jeff Jojer Jones Catulay</p>
+    </footer>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryImages = document.querySelectorAll('.gallery-image img');
+
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => { lightboxImg.src = ''; }, 400);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+                setTimeout(() => { lightboxImg.src = ''; }, 400);
+            }
+        });
+    </script>
+</body>
+</html>
