@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Full-Stack CI/CD | Project Spotlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #fb923c; /* AWS Lambda Orange */
+            --secondary: #38bdf8; /* Docker Blue */
+            --success: #10b981;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.7), var(--bg)), url('./docs/images/archi-upd_v2.png');
+            background-size: cover;
+            background-position: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content { max-width: 900px; position: relative; z-index: 2; }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -50px auto 100px;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 4rem;
+            margin-bottom: 3.5rem;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .intro-text {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            background: rgba(251, 146, 60, 0.05);
+            transform: translateY(-8px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1.5rem;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-back:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #000;
+            transform: translateX(-5px);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.7rem 1.8rem;
+            border-radius: 99px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+        }
+
+        .gallery-label {
+            margin-bottom: 1.5rem;
+        }
+
+        .gallery-label h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-label p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        .gallery-image-wrapper {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 12px;
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: zoom-in;
+            overflow: hidden;
+        }
+
+        .gallery-image-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .gallery-item:hover .gallery-image-wrapper {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 50px 100px -20px rgba(251, 146, 60, 0.15);
+        }
+
+        /* Lightbox Overlay */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 12px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            transform: scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: contain;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: var(--text-dim);
+            font-size: 1rem;
+            border-top: 1px solid var(--border);
+            background: linear-gradient(to top, rgba(251, 146, 60, 0.02), transparent);
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 3rem; }
+            .hero { height: 60vh; }
+            section { padding: 2.5rem; }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .container { padding: 1rem; margin-top: 0; }
+            .back-nav { top: 1rem; left: 1rem; }
+            section { border-radius: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Showcase
+        </a>
+    </div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="status-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Status: Completed
+            </div>
+            <h1>Full-Stack AWS Pipeline</h1>
+            <p style="font-size: 1.4rem; color: var(--text-dim); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+                Full-stack AWS project featuring a Dockerized React frontend on EC2, fronted by an Application Load Balancer and CloudFront. Integrated with a serverless backend (API Gateway + Lambda), automated via CodePipeline, CodeBuild, and ECR.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Infrastructure Overview -->
+        <section>
+            <h2>Architectural Core</h2>
+            <div class="intro-text">
+                This project showcases a modern full-stack deployment strategy using AWS managed services to ensure scalability, security, and developer productivity.
+            </div>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3><span>⚛️</span> Serverless Backend</h3>
+                    <p>API Gateway and AWS Lambda providing a scalable, pay-as-you-go backend logic without server management.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🐳</span> Containerized UI</h3>
+                    <p>React application containerized with Docker, stored in Amazon ECR, and hosted on EC2 for consistent delivery.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🌊</span> CI/CD Pipeline</h3>
+                    <p>End-to-end automation with AWS CodePipeline, triggering builds on every GitHub commit for rapid iteration.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🛡️</span> Security & Monitoring</h3>
+                    <p>IAM-controlled access and CloudWatch logging for comprehensive visibility and operational excellence.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Walkthrough -->
+        <section>
+            <h2>Project Visual Journey</h2>
+            <div class="gallery-container">
+                
+                <!-- Architecture Diagrams -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>System Architecture (High Level)</h4>
+                        <p>A high-level overview of the serverless backend and containerized frontend integration.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/archi-upd_v2.png" alt="System Architecture v2">
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Serverless Architecture</h4>
+                        <p>Detailed overview of the serverless backend integration and cloud resource interactions.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/aws-fullstack-cicd-react-lambda-archi.png" alt="Serverless Architecture">
+                    </div>
+                </div>
+
+                <!-- 1. Source Trigger -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Source Control</h4>
+                        <p>GitHub commit triggering the automated pipeline to build and deploy modern updates.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-github-JeffJojerJonesCatulay-aws-docker-cicd-react-app-commit-10311ee4031260a7b532585a2c913dbdd16e3a7c-2026-04-19-21_30_13.png" alt="GitHub Trigger">
+                    </div>
+                </div>
+
+                <!-- 2. Pipeline Orchestration -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>AWS CodePipeline</h4>
+                        <p>The central nervous system orchestrating Source, Build, and Deploy phases across the stack.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-fullstack-cicd-react-lambda-view-2026-04-19-21_30_19.png" alt="CodePipeline View">
+                    </div>
+                </div>
+
+                <!-- 3. Build Process -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>CodeBuild Execution</h4>
+                        <p>Provisioning compute to build Docker images and prepare artifacts for backend deployment.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codebuild-961776040935-projects-aws-fullstack-cicd-react-lambda-2026-04-19-21_31_33.png" alt="CodeBuild Details">
+                    </div>
+                </div>
+
+                <!-- 4. Container Registry -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Amazon ECR Repository</h4>
+                        <p>Secure storage for versioned Docker images, ready for deployment to EC2 instances.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ecr-repositories-private-961776040935-image-repo-aws-fullstack-cicd-react-lambda-details-2026-04-19-21_32_04.png" alt="ECR Registry">
+                    </div>
+                </div>
+
+                <!-- 5. Lambda Backend -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Serverless Logic (AWS Lambda)</h4>
+                        <p>Execution of business logic in response to API requests, scaling automatically with demand.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-lambda-home-2026-04-19-21_29_05.png" alt="AWS Lambda">
+                    </div>
+                </div>
+
+                <!-- 6. API Gateway -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>RESTful Interface (API Gateway)</h4>
+                        <p>Managing API routes and handling communication between the frontend and serverless backend.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-apigateway-main-develop-routes-2026-04-19-21_29_11.png" alt="API Gateway">
+                    </div>
+                </div>
+
+                <!-- 7. EC2 Hosting -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Compute Layer (EC2)</h4>
+                        <p>Virtual servers running the Dockerized React frontend, managed via Instance Connect.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ec2-home-2026-04-19-21_32_15.png" alt="EC2 Hosting">
+                    </div>
+                </div>
+
+                <!-- 8. Instance Connectivity -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Infrastructure Management</h4>
+                        <p>Direct SSH access to verify container status and production environment integrity.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ec2-instance-connect-ssh-home-2026-04-19-21_33_18.png" alt="EC2 Instance Connect">
+                    </div>
+                </div>
+
+                <!-- 9. Monitoring -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Observability (CloudWatch)</h4>
+                        <p>Aggregated logs and metrics ensuring the health and performance of the entire stack.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-cloudwatch-home-2026-04-19-21_31_49.png" alt="CloudWatch Logs">
+                    </div>
+                </div>
+
+                <!-- 10. API Verification -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Backend Verification</h4>
+                        <p>Direct test of the Lambda-API Gateway integration returning live data from the cloud.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-w4c81vr7k6-execute-api-us-east-1-amazonaws-user-getUserCatchphrase-2026-04-19-21_29_18.png" alt="API Response">
+                    </div>
+                </div>
+
+                <!-- 11. Final Application -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Live Production UI (Dashboard)</h4>
+                        <p>The polished React application successfully serving users via a global delivery network.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/Screenshot 2026-04-19 213423.png" alt="Final Application UI Dashboard">
+                    </div>
+                </div>
+
+                <!-- 12. Application Detail -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Interface Details</h4>
+                        <p>Close-up view of the application interface showing the full-stack data integration.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/Screenshot 2026-04-19 213450.png" alt="Application Details">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Enlarged View">
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AWS Full-Stack CI/CD Pipeline Showcase</p>
+    </footer>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryWrappers = document.querySelectorAll('.gallery-image-wrapper img');
+
+        galleryWrappers.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => { lightboxImg.src = ''; }, 400);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
