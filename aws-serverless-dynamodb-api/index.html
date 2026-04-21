@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Serverless DynamoDB API | Project Spotlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1; /* Indigo */
+            --secondary: #fb923c; /* Lambda Orange */
+            --accent: #a855f7; /* Purple */
+            --success: #10b981;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.8), var(--bg)), url('./docs/images/architecture.png');
+            background-size: cover;
+            background-position: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content { max-width: 900px; position: relative; z-index: 2; }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -50px auto 100px;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 4rem;
+            margin-bottom: 3.5rem;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .intro-text {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-8px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1.5rem;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-back:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+            transform: translateX(-5px);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.7rem 1.8rem;
+            border-radius: 99px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+        }
+
+        .gallery-label {
+            margin-bottom: 1.5rem;
+        }
+
+        .gallery-label h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-label p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        .gallery-image-wrapper {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 12px;
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: zoom-in;
+            overflow: hidden;
+        }
+
+        .gallery-image-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .gallery-item:hover .gallery-image-wrapper {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 50px 100px -20px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Lightbox Overlay */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 12px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            transform: scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: contain;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: var(--text-dim);
+            font-size: 1rem;
+            border-top: 1px solid var(--border);
+            background: linear-gradient(to top, rgba(99, 102, 241, 0.02), transparent);
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 3rem; }
+            .hero { height: 60vh; }
+            section { padding: 2.5rem; }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .container { padding: 1rem; margin-top: 0; }
+            .back-nav { top: 1rem; left: 1rem; }
+            section { border-radius: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Showcase
+        </a>
+    </div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="status-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Status: Completed
+            </div>
+            <h1>Serverless API</h1>
+            <p style="font-size: 1.4rem; color: var(--text-dim); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+                A high-performance serverless REST API built with Amazon API Gateway, AWS Lambda, and DynamoDB, demonstrating seamless NoSQL integration and cloud-native scalability.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Infrastructure Overview -->
+        <section>
+            <h2>Architectural Core</h2>
+            <div class="intro-text">
+                The application showcases a fully managed backend architecture that eliminates server management while providing robust API endpoints. Designed for cost-efficiency and rapid deployment, it leverages the best of AWS serverless services.
+            </div>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3><span>🌐</span> API Gateway</h3>
+                    <p>Highly available entry point for RESTful requests, managing traffic, routing, and securing backend resources.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>⚡</span> AWS Lambda</h3>
+                    <p>On-demand serverless compute executing business logic with sub-second scaling and zero idle costs.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>📊</span> Amazon DynamoDB</h3>
+                    <p>High-performance NoSQL database providing consistent single-digit millisecond latency at any scale.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🧠</span> NoSQL Patterns</h3>
+                    <p>Implementation of key concepts like flexible schemas and efficient partition key design for optimized data access.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🛡️</span> Zero Infrastructure</h3>
+                    <p>Built entirely on managed services, removing the need for server provisioning, patching, or maintenance.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🚀</span> Postman Verified</h3>
+                    <p>Thoroughly tested API endpoints ensuring reliable request/response cycles and correct status code handling.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Walkthrough -->
+        <section>
+            <h2>Project Visual Journey</h2>
+            <div class="gallery-container">
+                
+                <!-- Architecture -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>System Architecture</h4>
+                        <p>Technical overview of the serverless backend, showcasing the flow from request to data persistence.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/architecture.png" alt="System Architecture">
+                    </div>
+                </div>
+
+                <!-- Database -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>DynamoDB Table Design</h4>
+                        <p>Configuration of the NoSQL table, including partition keys and capacity settings for efficient data storage.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-dynamodbv2-home-2026-04-21-22_18_58.png" alt="DynamoDB Configuration">
+                    </div>
+                </div>
+
+                <!-- Lambda -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Serverless Logic (Lambda)</h4>
+                        <p>Core backend functions responsible for processing CRUD operations and interacting with the database.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-lambda-home-2026-04-21-22_19_06.png" alt="AWS Lambda Logic">
+                    </div>
+                </div>
+
+                <!-- API Gateway -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>RESTful Orchestration</h4>
+                        <p>API Gateway setup defining the endpoints and triggering Lambda functions based on HTTP methods.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-apigateway-main-develop-integrations-attach-2026-04-21-22_19_13.png" alt="API Gateway Integrations">
+                    </div>
+                </div>
+
+                <!-- Postman 1 -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>API Testing & Validation</h4>
+                        <p>Verifying the POST endpoint in Postman to ensure successful record creation in the database.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/Screenshot 2026-04-21 222039.png" alt="Postman POST Test">
+                    </div>
+                </div>
+
+                <!-- Postman 2 -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>GET Request Verification</h4>
+                        <p>Validating the retrieval of data through the GET endpoint, confirming correct API responses.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/Screenshot 2026-04-21 222052.png" alt="Postman GET Test">
+                    </div>
+                </div>
+
+                <!-- Data Items -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>NoSQL Data Persistence</h4>
+                        <p>Visualizing the live items within the DynamoDB table after successful API operations.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-dynamodbv2-home-2026-04-21-22_21_02.png" alt="DynamoDB Live Items">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Enlarged View">
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AWS Serverless DynamoDB API Showcase</p>
+    </footer>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryWrappers = document.querySelectorAll('.gallery-image-wrapper img');
+
+        galleryWrappers.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => { lightboxImg.src = ''; }, 400);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
