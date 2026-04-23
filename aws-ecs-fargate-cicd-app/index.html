@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS ECS Fargate CI/CD | Project Spotlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f59e0b; /* AWS Amber */
+            --success: #10b981;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.7), var(--bg)), url('./docs/images/aws-ecs-fargate-cicd-app-archi.png');
+            background-size: cover;
+            background-position: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg) 90%);
+        }
+
+        .hero-content { max-width: 800px; position: relative; z-index: 2; }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: -50px auto 100px;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 4rem;
+            margin-bottom: 3.5rem;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            background: rgba(245, 158, 11, 0.05);
+            transform: translateY(-8px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1.5rem;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-back:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #000;
+            transform: translateX(-5px);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.7rem 1.8rem;
+            border-radius: 99px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+        }
+
+        .gallery-label {
+            margin-bottom: 1.5rem;
+        }
+
+        .gallery-label h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-label p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        .gallery-image-wrapper {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 12px;
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: zoom-in;
+            overflow: hidden;
+        }
+
+        .gallery-image-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .gallery-item:hover .gallery-image-wrapper {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 50px 100px -20px rgba(245, 158, 11, 0.15);
+        }
+
+        /* Lightbox Styling */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 12px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            transform: scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: contain;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: var(--text-dim);
+            font-size: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 3rem; }
+            .hero { height: 60vh; }
+            section { padding: 2.5rem; }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .container { padding: 1rem; margin-top: 0; }
+            .back-nav { top: 1rem; left: 1rem; }
+            section { border-radius: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Showcase
+        </a>
+    </div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="status-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Status: Completed
+            </div>
+            <h1>AWS ECS Fargate CI/CD</h1>
+            <p style="font-size: 1.4rem; color: var(--text-dim); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+                A containerized web application deployed using Amazon ECS with AWS Fargate, integrated with a full CI/CD pipeline using AWS CodePipeline and AWS CodeBuild.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Overview -->
+        <section>
+            <h2>Infrastructure Overview</h2>
+            <p style="margin-bottom: 3.5rem; font-size: 1.25rem; color: var(--text-dim); line-height: 1.8;">
+                This project demonstrates a <strong>serverless container orchestration</strong> strategy that automates the deployment of a React application through a robust CI/CD lifecycle.
+            </p>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3><span>⚛️</span> ECS Fargate</h3>
+                    <p>Serverless compute engine for containers that eliminates the need to manage EC2 instances or clusters.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🚀</span> CodePipeline</h3>
+                    <p>Automated orchestration hub coordinating the flow from source code to production deployment.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🏗️</span> CodeBuild</h3>
+                    <p>Fully managed build service that compiles source code, runs tests, and produces Docker images.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>⚖️</span> Elastic Load Balancing</h3>
+                    <p>Automatically distributes incoming application traffic across multiple targets in a secure VPC.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Showcase Gallery -->
+        <section id="showcase">
+            <h2>Process Visual Walkthrough</h2>
+            <div class="gallery-container">
+                
+                <!-- Architecture -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>System Architecture</h4>
+                        <p>Comprehensive high-level design of the ECS Fargate CI/CD pipeline and networking infrastructure.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/aws-ecs-fargate-cicd-app-archi.png" alt="Architecture Diagram">
+                    </div>
+                </div>
+
+                <!-- GitHub -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Source Control (GitHub)</h4>
+                        <p>Automated git push triggers the entire CI/CD workflow, initiating the build process on code changes.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="../aws-docker-cicd-react-app/docs/images/screencapture-github-JeffJojerJonesCatulay-aws-docker-cicd-react-app-commit-be351bcf7a81fb112527b8c538acbe80bd146a28-2026-04-15-22_58_13.png" alt="GitHub Sync">
+                    </div>
+                </div>
+
+                <!-- Pipeline -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>CI/CD Orchestration</h4>
+                        <p>Visualizing the live execution of CodePipeline as it moves transitions artifacts through build and deploy stages.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-ecs-fargate-cicd-app-pipeline-view-2026-04-23-23_24_02.png" alt="AWS CodePipeline">
+                    </div>
+                </div>
+
+                <!-- Build -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Docker Build History</h4>
+                        <p>Tracking the containerization process within CodeBuild, where the React app is packaged into a Docker image.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codebuild-961776040935-projects-aws-ecs-fargate-cicd-app-codebuild-history-2026-04-23-23_27_02.png" alt="CodeBuild Process">
+                    </div>
+                </div>
+
+                <!-- ECR -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Container Registry (ECR)</h4>
+                        <p>Managed hosting of versioned Docker images, serving as the central source for ECS task deployments.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ecr-repositories-private-961776040935-image-repo-aws-ecs-fargate-cicd-app-details-2026-04-23-23_27_19.png" alt="ECR Details">
+                    </div>
+                </div>
+
+                <!-- Task Def -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Fargate Task Definition</h4>
+                        <p>Detailed configuration for container execution, including CPU, memory, and container specifications.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ecs-v2-task-definitions-react-task-5-containers-2026-04-23-23_28_46.png" alt="ECS Task Blueprint">
+                    </div>
+                </div>
+
+                <!-- Cluster -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>ECS Cluster Management</h4>
+                        <p>Monitoring the active Fargate services and task status within the managed container environment.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ecs-v2-clusters-aws-ecs-fargate-cicd-app-services-2026-04-23-23_27_26.png" alt="ECS Cluster View">
+                    </div>
+                </div>
+
+                <!-- Networking -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Inbound Traffic Control (ALB)</h4>
+                        <p>Configuration of the Application Load Balancer and Target Groups for high availability and health monitoring within the VPC.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ec2-home-2026-04-23-23_29_02.png" alt="ALB Configuration">
+                    </div>
+                </div>
+
+                <!-- CloudFront -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Global Edge Delivery (CloudFront)</h4>
+                        <p>Leveraging Amazon CloudFront as a CDN to cache content at edge locations, reducing latency and providing an additional layer of security.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ec2-home-2026-04-23-23_29_17.png" alt="CloudFront Distribution">
+                    </div>
+                </div>
+
+                <!-- Live -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Production Application</h4>
+                        <p>The successfully deployed React application served through the Fargate infrastructure and global delivery network.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/Screenshot 2026-04-23 232945.png" alt="Live Site">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Enlarged Showcase">
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AWS ECS Fargate Project Showcase</p>
+    </footer>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryWrappers = document.querySelectorAll('.gallery-image-wrapper img');
+
+        galleryWrappers.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => { lightboxImg.src = ''; }, 400);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') lightbox.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
