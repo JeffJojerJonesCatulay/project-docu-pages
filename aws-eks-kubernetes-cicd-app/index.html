@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS EKS Kubernetes CI/CD | Project Spotlight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f59e0b; /* AWS Amber */
+            --success: #10b981;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.8);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(3, 7, 18, 0.7), var(--bg)), url('./docs/images/aws-eks-kubernetes-cicd-app-archi.png');
+            background-size: cover;
+            background-position: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg) 90%);
+        }
+
+        .hero-content { max-width: 800px; position: relative; z-index: 2; }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: -50px auto 100px;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 4rem;
+            margin-bottom: 3.5rem;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            background: rgba(245, 158, 11, 0.05);
+            transform: translateY(-8px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1.5rem;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-back:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #000;
+            transform: translateX(-5px);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.7rem 1.8rem;
+            border-radius: 99px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+        }
+
+        .gallery-label {
+            margin-bottom: 1.5rem;
+        }
+
+        .gallery-label h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-label p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        .gallery-image-wrapper {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 12px;
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
+            transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: zoom-in;
+            overflow: hidden;
+        }
+
+        .gallery-image-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .gallery-item:hover .gallery-image-wrapper {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 50px 100px -20px rgba(245, 158, 11, 0.15);
+        }
+
+        /* Lightbox Styling */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            border-radius: 12px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            transform: scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: contain;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: var(--text-dim);
+            font-size: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 3rem; }
+            .hero { height: 60vh; }
+            section { padding: 2.5rem; }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .container { padding: 1rem; margin-top: 0; }
+            .back-nav { top: 1rem; left: 1rem; }
+            section { border-radius: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Showcase
+        </a>
+    </div>
+
+    <div class="hero">
+        <div class="hero-content">
+            <div class="status-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Status: Completed
+            </div>
+            <h1>AWS EKS Kubernetes CI/CD</h1>
+            <p style="font-size: 1.4rem; color: var(--text-dim); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+                A complete DevOps pipeline that builds a Dockerized application, pushes it to Amazon ECR, and automatically deploys it to a Kubernetes cluster on Amazon EKS using AWS CodePipeline and AWS CodeBuild.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Overview -->
+        <section>
+            <h2>Infrastructure Overview</h2>
+            <p style="margin-bottom: 3.5rem; font-size: 1.25rem; color: var(--text-dim); line-height: 1.8;">
+                This project demonstrates real-world CI/CD with Kubernetes on AWS, utilizing automated pipelines to deploy containerized applications reliably to scalable EKS clusters.
+            </p>
+            <div class="grid">
+                <div class="feature-card">
+                    <h3><span>☸️</span> Amazon EKS</h3>
+                    <p>Fully managed Kubernetes service providing high availability, scalability, and security for the containerized application.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🚀</span> CodePipeline</h3>
+                    <p>Continuous delivery service modeling and visualizing the automated workflow from code update to EKS deployment.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🏗️</span> CodeBuild</h3>
+                    <p>Compiles source code, builds Docker images, updates manifests, and runs kubectl commands to apply deployments.</p>
+                </div>
+                <div class="feature-card">
+                    <h3><span>🐳</span> Amazon ECR</h3>
+                    <p>Secure, fully managed Docker container registry storing the application's images for the EKS nodes to pull.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Showcase Gallery -->
+        <section id="showcase">
+            <h2>Process Visual Walkthrough</h2>
+            <div class="gallery-container">
+                
+                <!-- Architecture -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>System Architecture</h4>
+                        <p>Comprehensive high-level design of the AWS EKS Kubernetes CI/CD pipeline and networking infrastructure.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/aws-eks-kubernetes-cicd-app-archi.png" alt="Architecture Diagram">
+                    </div>
+                </div>
+
+                <!-- GitHub -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Source Control (GitHub)</h4>
+                        <p>Automated git push triggers the entire CI/CD workflow, initiating the build process on code changes.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-github-JeffJojerJonesCatulay-aws-docker-cicd-react-app-commit-5f44459b602fd87e91034bd45f97cec8e5238e34-2026-04-25-19_55_22.png" alt="GitHub Sync">
+                    </div>
+                </div>
+
+                <!-- Pipeline -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>CI/CD Orchestration</h4>
+                        <p>Visualizing the live execution of CodePipeline as it securely transitions artifacts through build and EKS deploy stages.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codepipeline-pipelines-aws-eks-kubernetes-cicd-app-pipeline-view-2026-04-25-19_55_28.png" alt="AWS CodePipeline">
+                    </div>
+                </div>
+
+                <!-- Build -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Docker Build & Kubectl History</h4>
+                        <p>Tracking the containerization and deployment process within CodeBuild, applying Kubernetes manifests to the cluster.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-codesuite-codebuild-961776040935-projects-aws-eks-kubernetes-cicd-app-codebuild-2026-04-25-19_56_07.png" alt="CodeBuild Process">
+                    </div>
+                </div>
+
+                <!-- ECR -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Container Registry (ECR)</h4>
+                        <p>Managed hosting of versioned Docker images, serving as the central container repository for EKS node retrieval.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ecr-repositories-private-961776040935-image-app-eks-react-app-details-2026-04-25-19_56_14.png" alt="ECR Details">
+                    </div>
+                </div>
+
+                <!-- Cluster -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>EKS Cluster Management</h4>
+                        <p>Monitoring the core Amazon Elastic Kubernetes Service (EKS) cluster and its foundational configuration.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-eks-clusters-2026-04-25-19_56_18.png" alt="EKS Cluster View">
+                    </div>
+                </div>
+
+                <!-- Load Balancer -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Ingress Load Balancing</h4>
+                        <p>Configuration of the Application Load Balancer to route external HTTP traffic smoothly into the Kubernetes cluster.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ec2-home-2026-04-25-19_56_26.png" alt="Load Balancer Configuration">
+                    </div>
+                </div>
+
+                <!-- Target Group -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>ALB Target Group</h4>
+                        <p>Configuration of the Target Group to securely route incoming traffic from the Load Balancer to the EKS worker nodes.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/screencapture-us-east-1-console-aws-amazon-ec2-home-2026-04-25-19_58_37.png" alt="Target Group Configuration">
+                    </div>
+                </div>
+
+                <!-- Live 1 -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Production Application Status</h4>
+                        <p>The successfully deployed containerized application running reliably on the managed Amazon EKS cluster.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/Screenshot 2026-04-25 195724.png" alt="Live Site Status">
+                    </div>
+                </div>
+                
+                <!-- Live 2 -->
+                <div class="gallery-item">
+                    <div class="gallery-label">
+                        <h4>Production Details</h4>
+                        <p>Fully operational application endpoints exposed via LoadBalancer, highlighting the power of scalable Kubernetes orchestration.</p>
+                    </div>
+                    <div class="gallery-image-wrapper">
+                        <img src="./docs/images/Screenshot 2026-04-25 195800.png" alt="Live Site Application Details">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <img src="" alt="Enlarged Showcase">
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AWS EKS Kubernetes Project Showcase</p>
+    </footer>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryWrappers = document.querySelectorAll('.gallery-image-wrapper img');
+
+        galleryWrappers.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => { lightboxImg.src = ''; }, 400);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') lightbox.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
