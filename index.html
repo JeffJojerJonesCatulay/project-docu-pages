@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Showcase | Antigravity</title>
     <meta name="description" content="A curated showcase of development projects and technical demonstrations.">
-    
+
     <!-- Design Assets -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         /* CSS VARIABLE SYSTEM - Easy to customize */
         :root {
             --bg-dark: #050810;
             --bg-card: rgba(17, 25, 40, 0.75);
-            --accent-primary: #6366f1; /* Indigo */
-            --accent-secondary: #a855f7; /* Purple */
+            --accent-primary: #6366f1;
+            /* Indigo */
+            --accent-secondary: #a855f7;
+            /* Purple */
             --text-heading: #ffffff;
             --text-body: #94a3b8;
             --border-glass: rgba(255, 255, 255, 0.1);
@@ -35,7 +40,7 @@
             background-color: var(--bg-dark);
             color: var(--text-body);
             min-height: 100vh;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 35%),
                 radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.1) 0%, transparent 35%);
             background-attachment: fixed;
@@ -184,170 +189,267 @@
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .subtitle { font-size: 1rem; }
-            .container { padding: 3rem 1.5rem; }
-            .project-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .card-title { font-size: 1.5rem; }
-            header { margin-bottom: 4rem; }
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 3rem 1.5rem;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            header {
+                margin-bottom: 4rem;
+            }
         }
 
         @media (max-width: 480px) {
-            h1 { font-size: 2rem; }
-            .container { padding: 2rem 1rem; }
-            .project-card { padding: 1.5rem; }
-            .card-image-container { height: 140px !important; margin-bottom: 1.5rem !important; }
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .project-card {
+                padding: 1.5rem;
+            }
+
+            .card-image-container {
+                height: 140px !important;
+                margin-bottom: 1.5rem !important;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <header>
             <div class="showcase-logo">
                 <!-- STATIC LOGO SVG -->
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="16 18 22 12 16 6"></polyline>
                     <polyline points="8 6 2 12 8 18"></polyline>
                 </svg>
             </div>
             <h1>Project Showcase</h1>
-            <p class="subtitle">A curated gallery of engineering projects, architectural designs, and technical implementations.</p>
+            <p class="subtitle">A curated gallery of engineering projects, architectural designs, and technical
+                implementations.</p>
         </header>
 
         <main class="project-grid">
             <!-- PROJECT BLOCK: PFM (Copy this block for new projects) -->
             <a href="pfm/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="pfm/docs/images/pfm.png" alt="PFM Project" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="pfm/docs/images/pfm.png" alt="PFM Project"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <polygon points="12 2 22 7 22 17 12 22 2 17 2 7 12 2"></polygon>
                     </svg>
                 </div>
                 <h2 class="card-title">PFM Project</h2>
-                <p class="card-desc">The Personal Finance Manager is designed to help users track, allocate, and manage their finances in one intuitive interface. It provides a friendly dashboard with quick access to essential financial tools, making financial management simple and effective.</p>
+                <p class="card-desc">The Personal Finance Manager is designed to help users track, allocate, and manage
+                    their finances in one intuitive interface. It provides a friendly dashboard with quick access to
+                    essential financial tools, making financial management simple and effective.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
 
             <!-- PROJECT BLOCK: AWS CI/CD -->
             <a href="aws-simple-cicd-practice/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-simple-cicd-practice/docs/images/architecture.png" alt="AWS CI/CD Project" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-simple-cicd-practice/docs/images/architecture.png" alt="AWS CI/CD Project"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                     </svg>
                 </div>
                 <h2 class="card-title">AWS CI/CD Practice</h2>
-                <p class="card-desc">A fully automated CI/CD pipeline built on AWS to deploy a static website from GitHub to S3, featuring automated builds with CodeBuild and orchestration with CodePipeline.</p>
+                <p class="card-desc">A fully automated CI/CD pipeline built on AWS to deploy a static website from
+                    GitHub to S3, featuring automated builds with CodeBuild and orchestration with CodePipeline.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
 
             <!-- PROJECT BLOCK: AWS Docker CI/CD -->
             <a href="aws-docker-cicd-react-app/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-docker-cicd-react-app/docs/images/archi-upd.png" alt="AWS Docker CI/CD Project" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-docker-cicd-react-app/docs/images/archi-upd.png" alt="AWS Docker CI/CD Project"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
                         <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
                         <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
                     </svg>
                 </div>
                 <h2 class="card-title">AWS Docker CI/CD</h2>
-                <p class="card-desc">Advanced CI/CD pipeline featuring Docker containerization, Amazon ECR registry, and automated deployment to EC2 instances for React applications.</p>
+                <p class="card-desc">Advanced CI/CD pipeline featuring Docker containerization, Amazon ECR registry, and
+                    automated deployment to EC2 instances for React applications.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
             <!-- PROJECT BLOCK: AWS S3 + CloudFront CI/CD -->
             <a href="aws-s3-cloudfront-cicd-site/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-s3-cloudfront-cicd-site/docs/images/architecture.png" alt="AWS S3 + CloudFront CI/CD Project" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-s3-cloudfront-cicd-site/docs/images/architecture.png"
+                        alt="AWS S3 + CloudFront CI/CD Project"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                     </svg>
                 </div>
                 <h2 class="card-title">AWS S3 + CloudFront</h2>
-                <p class="card-desc">An automated CI/CD pipeline that builds and deploys a static website to Amazon S3, with global delivery and cache invalidation through CloudFront.</p>
+                <p class="card-desc">An automated CI/CD pipeline that builds and deploys a static website to Amazon S3,
+                    with global delivery and cache invalidation through CloudFront.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
             <!-- PROJECT BLOCK: AWS Full-Stack CI/CD -->
             <a href="aws-fullstack-cicd-react-lambda/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-fullstack-cicd-react-lambda/docs/images/archi-upd_v2.png" alt="AWS Full-Stack CI/CD Project" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-fullstack-cicd-react-lambda/docs/images/archi-upd_v2.png"
+                        alt="AWS Full-Stack CI/CD Project"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
                     </svg>
                 </div>
                 <h2 class="card-title">AWS Full-Stack CI/CD</h2>
-                <p class="card-desc">Full-stack AWS project featuring a Dockerized React frontend on EC2, fronted by an Application Load Balancer and CloudFront. Integrated with a serverless backend (API Gateway + Lambda), automated via CodePipeline, CodeBuild, and ECR.</p>
+                <p class="card-desc">Full-stack AWS project featuring a Dockerized React frontend on EC2, fronted by an
+                    Application Load Balancer and CloudFront. Integrated with a serverless backend (API Gateway +
+                    Lambda), automated via CodePipeline, CodeBuild, and ECR.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
             <!-- PROJECT BLOCK: AWS Event-Driven Platform -->
             <a href="aws-cicd-event-driven-platform/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-cicd-event-driven-platform/docs/images/archi-upd_v4.png" alt="AWS Event-Driven Platform" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-cicd-event-driven-platform/docs/images/archi-upd_v4.png"
+                        alt="AWS Event-Driven Platform"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                     </svg>
                 </div>
                 <h2 class="card-title">Event-Driven Platform</h2>
-                <p class="card-desc">End-to-end AWS architecture demonstrating CI/CD automation, containerized frontend deployment on EC2, and a serverless backend with asynchronous SQS/SNS workflows.</p>
+                <p class="card-desc">End-to-end AWS architecture demonstrating CI/CD automation, containerized frontend
+                    deployment on EC2, and a serverless backend with asynchronous SQS/SNS workflows.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
 
             <!-- PROJECT BLOCK: AWS Serverless DynamoDB API -->
             <a href="aws-serverless-dynamodb-api/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-serverless-dynamodb-api/docs/images/architecture.png" alt="AWS Serverless DynamoDB API" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-serverless-dynamodb-api/docs/images/architecture.png"
+                        alt="AWS Serverless DynamoDB API"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
                         <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
                         <line x1="6" y1="6" x2="6.01" y2="6"></line>
@@ -355,97 +457,177 @@
                     </svg>
                 </div>
                 <h2 class="card-title">Serverless CRUD API</h2>
-                <p class="card-desc">Modern serverless backend built with Amazon API Gateway, AWS Lambda, and DynamoDB. Highlights include seamless NoSQL integration and automated request handling with zero server management.</p>
+                <p class="card-desc">Modern serverless backend built with Amazon API Gateway, AWS Lambda, and DynamoDB.
+                    Highlights include seamless NoSQL integration and automated request handling with zero server
+                    management.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
 
             <!-- PROJECT BLOCK: AWS ECS Fargate CI/CD -->
             <a href="aws-ecs-fargate-cicd-app/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-ecs-fargate-cicd-app/docs/images/aws-ecs-fargate-cicd-app-archi.png" alt="AWS ECS Fargate CI/CD" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-ecs-fargate-cicd-app/docs/images/aws-ecs-fargate-cicd-app-archi.png"
+                        alt="AWS ECS Fargate CI/CD"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
                         <path d="M21 17L12 22l-9-5"></path>
                         <path d="M21 12L12 17l-9-5"></path>
                     </svg>
                 </div>
                 <h2 class="card-title">ECS Fargate CI/CD</h2>
-                <p class="card-desc">Advanced container orchestration using Amazon ECS with AWS Fargate. Features a serverless container environment, Elastic Load Balancing, and an automated CI/CD pipeline with CodePipeline and CodeBuild.</p>
+                <p class="card-desc">Advanced container orchestration using Amazon ECS with AWS Fargate. Features a
+                    serverless container environment, Elastic Load Balancing, and an automated CI/CD pipeline with
+                    CodePipeline and CodeBuild.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
             <!-- PROJECT BLOCK: AWS EKS Kubernetes CI/CD -->
             <a href="aws-eks-kubernetes-cicd-app/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-eks-kubernetes-cicd-app/docs/images/aws-eks-kubernetes-cicd-app-archi.png" alt="AWS EKS Kubernetes CI/CD" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-eks-kubernetes-cicd-app/docs/images/aws-eks-kubernetes-cicd-app-archi.png"
+                        alt="AWS EKS Kubernetes CI/CD"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
                     </svg>
                 </div>
                 <h2 class="card-title">EKS Kubernetes CI/CD</h2>
-                <p class="card-desc">A complete DevOps pipeline that builds a Dockerized application, pushes it to Amazon ECR, and automatically deploys it to a Kubernetes cluster on Amazon EKS using AWS CodePipeline and AWS CodeBuild.</p>
+                <p class="card-desc">A complete DevOps pipeline that builds a Dockerized application, pushes it to
+                    Amazon ECR, and automatically deploys it to a Kubernetes cluster on Amazon EKS using AWS
+                    CodePipeline and AWS CodeBuild.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
             <!-- PROJECT BLOCK: Local ArgoCD CI/CD Practice -->
             <a href="local-argo-cicd-practice/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="local-argo-cicd-practice/docs/images/v1/Screenshot%202026-04-30%20181518.png" alt="Local ArgoCD CI/CD Practice" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="local-argo-cicd-practice/docs/images/v1/Screenshot%202026-04-30%20181518.png"
+                        alt="Local ArgoCD CI/CD Practice"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                        </path>
                         <path d="M2 12h20"></path>
                     </svg>
                 </div>
                 <h2 class="card-title">Local ArgoCD CI/CD</h2>
-                <p class="card-desc">A local CI/CD practice implementation for a dummy system featuring Dev, Test, and Prod phases. Represents the foundational phase for exploring and learning ArgoCD GitOps.</p>
+                <p class="card-desc">A local CI/CD practice implementation for a dummy system featuring Dev, Test, and
+                    Prod phases. Represents the foundational phase for exploring and learning ArgoCD GitOps.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
             <!-- PROJECT BLOCK: AWS ArgoCD CI/CD -->
             <a href="aws-argocd-cicd/index.html" class="project-card">
-                <div class="card-image-container" style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
-                    <img src="aws-argocd-cicd/docs/images/architecture_diagram.png" alt="AWS ArgoCD CI/CD" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="aws-argocd-cicd/docs/images/architecture_diagram.png" alt="AWS ArgoCD CI/CD"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
                 </div>
-                <div class="card-icon" style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                     </svg>
                 </div>
                 <h2 class="card-title">AWS ArgoCD CI/CD</h2>
-                <p class="card-desc">Advanced GitOps pipeline on Amazon EKS using ArgoCD and Jenkins. Features multi-environment automated deployments with robust CI/CD orchestration.</p>
+                <p class="card-desc">Advanced GitOps pipeline on Amazon EKS using ArgoCD and Jenkins. Features
+                    multi-environment automated deployments with robust CI/CD orchestration.</p>
                 <div class="card-meta">
                     <div></div> <!-- Spacer -->
                     <div class="explore-btn">
-                        Explore Project 
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+            <!-- END PROJECT BLOCK -->
+
+            <!-- PROJECT BLOCK: AWS ArgoCD CI/CD -->
+            <a href="iac-tf-aws-argo-cicd/index.html" class="project-card">
+                <div class="card-image-container"
+                    style="width: 100%; height: 180px; background: rgba(255,255,255,0.03); border-radius: 20px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--border-glass);">
+                    <img src="iac-tf-aws-argo-cicd\docs\images\diagram.png" alt="AWS ArgoCD CI/CD"
+                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s;">
+                </div>
+                <div class="card-icon"
+                    style="position: absolute; top: 1.5rem; right: 1.5rem; margin-bottom: 0; background: var(--bg-card); backdrop-filter: blur(8px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <h2 class="card-title">IaC Terraform AWS Argo CICD</h2>
+                <p class="card-desc">This project delivers a GitOps enabled CI/CD pipeline on AWS using Infrastructure
+                    as Code (IaC) with Terraform.</p>
+                <div class="card-meta">
+                    <div></div> <!-- Spacer -->
+                    <div class="explore-btn">
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
                     </div>
                 </div>
             </a>
@@ -457,4 +639,5 @@
     </div>
 
 </body>
+
 </html>
